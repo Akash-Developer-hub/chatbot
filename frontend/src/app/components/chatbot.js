@@ -49,7 +49,7 @@ const Chatbot = () => {
           body: JSON.stringify({ prompt: input })
         });
         const data = await response.json();
-        
+
         // Handle the different response formats
         if (data.answers) {
           // Handle the knowledge base responses (array of answers)
@@ -90,20 +90,20 @@ const Chatbot = () => {
   const handleAnswerClick = async (title, content) => {
     // Use the content as the input data
     const clickedText = content;
-    
+
     // Create a user message
     const userMessage = {
       text: clickedText,
       sender: 'user',
       timestamp: new Date()
     };
-    
+
     // Add user message to chat
     setMessages(prev => [...prev, userMessage]);
-    
+
     // Show typing indicator
     setIsTyping(true);
-    
+
     try {
       // Send the clicked content as the prompt
       const response = await fetch('http://localhost:8000/chatbot/generate-content/', {
@@ -113,9 +113,9 @@ const Chatbot = () => {
         },
         body: JSON.stringify({ prompt: clickedText })
       });
-      
+
       const data = await response.json();
-      
+
       // Handle the response
       if (data.answers) {
         data.answers.forEach((answer) => {
@@ -200,9 +200,8 @@ const Chatbot = () => {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`${styles.message} ${
-                  message.sender === 'user' ? styles.userMessage : styles.botMessage
-                }`}
+                className={`${styles.message} ${message.sender === 'user' ? styles.userMessage : styles.botMessage
+                  }`}
               >
                 {message.sender === 'bot' && (
                   <div className={styles.botAvatarSmall}>
@@ -218,7 +217,7 @@ const Chatbot = () => {
                 )}
                 <div className={styles.messageContent}>
                   {message.isKnowledgeAnswer ? (
-                    <div 
+                    <div
                       className={styles.knowledgeAnswer}
                       onClick={() => handleAnswerClick(message.title, message.text)}
                     >
